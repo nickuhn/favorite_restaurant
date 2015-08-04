@@ -1,3 +1,5 @@
+'use strict'
+
 var express = require('express');
 var mongoose = require('mongoose');
 var app = express();
@@ -7,6 +9,8 @@ var restaurantRoutes = express.Router();
 var MONGO_URL = (process.env.MONGOLAB_URL || 'mongodb://localhost/restaurants_db');
 
 mongoose.connect(MONGO_URL);
+
+app.use(express.static(__dirname + '/build'));
 
 require('./routes/restaurantRoutes')(restaurantRoutes);
 
