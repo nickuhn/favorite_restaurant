@@ -1,0 +1,44 @@
+h1, h2{
+  text-align: center;
+  margin: auto;
+  padding-bottom: 2%;
+}
+
+#addBox {
+  width: 280px;
+  padding: 20px 10px;
+  border: 2px solid #000;
+  border-radius: 6px;
+  display: inline-block;
+  padding-right: 0;
+}
+
+#addBox label {
+    display: inline-block;
+    float: left;
+    clear: left;
+    width: 250px;
+    text-align: left;
+}
+
+#addBox input {
+  display: inline-block;
+  float: right;
+}
+
+#addBox button {
+  margin-left: 135px;
+  margin-top: 10px
+}
+
+#restList {
+  max-width: 75%;
+  display: inline-block;
+  margin-left: 50px;
+}
+
+#restList h3 {
+  margin-top: 0;
+}
+
+

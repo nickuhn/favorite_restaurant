@@ -14,13 +14,12 @@ describe('restaurant REST server', function() {
   var id;
   beforeEach(function(done) {
     testSave = new Restaurant({ name: 'Testing house',
-                                    rating: 0,
-                                    cuisine: 'Testing',
-                                    location: 'Testland',
-                                  });
+                                rating: 0,
+                                cuisine: 'Testing',
+                                location: 'Testland',
+                              });
     testSave.save(function(err, data) {
       if(err) throw err;
-
       testSave = data;
       done();
     });
