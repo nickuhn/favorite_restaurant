@@ -14,7 +14,7 @@ h1, h2 {
   float:left;
 }
 
-#addBox label, #updateRest label {
+#addBox label {
     display: inline-block;
     float: left;
     clear: left;
@@ -27,23 +27,42 @@ h1, h2 {
   float: right;
 }
 
+.number {
+  width: 125px;
+}
+
 #addBox button{
   margin-left: 135px;
   margin-top: 10px
 }
 
+#updateRest label {
+    display: inline-block;
+    float: left;
+    clear: left;
+    width: 195px;
+    text-align: left;
+}
+
+#updateRest input {
+  display: inline-block;
+  float: right;
+  width: 110px;
+}
+
 #updateRest {
-  width: 280px;
-  padding: 20px 10px;
+  width: 200px;
+  padding: 55px 10px 0px;
   border-radius: 6px;
   display: inline-block;
   padding-right: 0;
-  background-color: #ddd
+  background-color: #ddd;
+  margin-bottom: 25px;
 }
 
 #updateRest button {
-  margin-left: 25px;
-  margin-top: 10px;
+  margin-left: 5px;
+  margin-top: 13px;
 }
 
 #restHolder {
