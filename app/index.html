@@ -10,9 +10,9 @@
     <h1>Store Your Favorite Restaurants</h1>
     <aside id="addBox">
       <form data-ng-submit="create(newRestaurant)">
-        <label>Restaurant Name: <input type="text" data-ng-model="newRestaurant.name"></label>
+        <label>Restaurant Name: <input type="text" required data-ng-model="newRestaurant.name"></label>
         <label>Location: <input type="text" data-ng-model="newRestaurant.location"></label>
-        <label>Rating 1-5: <input type="number" data-ng-model="newRestaurant.rating"></label>
+        <label>Rating 1-5: <input class="number" type="number" min="1" max="5" data-ng-model="newRestaurant.rating"></label>
         <label>Cuisine: <input type="text" data-ng-model="newRestaurant.cuisine"></label>
         <button type="submit">Add Restaurant</button>
       </form>
@@ -21,21 +21,23 @@
       <article id="restList" data-ng-repeat="restaurant in restaurants">
 
         <form id="updateRest" data-ng-if="restaurant.editing" data-ng-submit="update(restaurant)">
-          <label>Restaurant Name: <input type="text" data-ng-model="restaurant.name"></label>
+          <label>Name: <input type="text" required data-ng-model="restaurant.name"></label>
           <label>Location: <input type="text" data-ng-model="restaurant.location"></label>
-          <label>Rating 1-5: <input type="number" data-ng-model="restaurant.rating"></label>
+          <label>Rating 1-5: <input type="number" class="number" min="1" max="5" data-ng-model="restaurant.rating"></label>
           <label>Cuisine: <input type="text" data-ng-model="restaurant.cuisine"></label>
-          <button type="submit">Update Restaurant</button>
-          <button type="button" data-ng-click="resetForm(restaurant)">Cancel</button>
+          <button type="submit">Update!</button>
+          <button type="button" data-ng-click="resetForm(restaurant)">Or not...</button>
         </form>
 
-        <h3>{{restaurant.name}}</h3>
-        <p><strong>Location: </strong>{{restaurant.location}}</p>
-        <p><strong>Rating: </strong>{{restaurant.rating}}</p>
-        <p><strong>Cuisine: </strong>{{restaurant.cuisine}}</p>
+        <section data-ng-if="!restaurant.editing">
+          <h3>{{restaurant.name}}</h3>
+          <p><strong>Location: </strong>{{restaurant.location}}</p>
+          <p><strong>Rating: </strong>{{restaurant.rating}}</p>
+          <p><strong>Cuisine: </strong>{{restaurant.cuisine}}</p>
+          <button data-ng-click="delete(restaurant)">Delete Me!</button>
+          <button data-ng-click="saveTemp(restaurant)">Update Me!</button>
+        </section>
 
-        <button data-ng-click="delete(restaurant)">Delete Me!</button>
-        <button data-ng-click="saveTemp(restaurant)">Update Me!</button>
       </article>
     </section>
   </main>
