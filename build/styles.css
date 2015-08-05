@@ -1,4 +1,4 @@
-h1, h2{
+h1, h2 {
   text-align: center;
   margin: auto;
   padding-bottom: 2%;
@@ -11,9 +11,10 @@ h1, h2{
   border-radius: 6px;
   display: inline-block;
   padding-right: 0;
+  float:left;
 }
 
-#addBox label {
+#addBox label, #updateRest label {
     display: inline-block;
     float: left;
     clear: left;
@@ -21,14 +22,34 @@ h1, h2{
     text-align: left;
 }
 
-#addBox input {
+#addBox input, #updateRest input {
   display: inline-block;
   float: right;
 }
 
-#addBox button {
+#addBox button{
   margin-left: 135px;
   margin-top: 10px
+}
+
+#updateRest {
+  width: 280px;
+  padding: 20px 10px;
+  border-radius: 6px;
+  display: inline-block;
+  padding-right: 0;
+  background-color: #ddd
+}
+
+#updateRest button {
+  margin-left: 25px;
+  margin-top: 10px;
+}
+
+#restHolder {
+  display: inline-block;
+  float:left;
+  width: 70%;
 }
 
 #restList {
@@ -39,6 +60,10 @@ h1, h2{
 
 #restList h3 {
   margin-top: 0;
+}
+
+#restList button {
+  margin-bottom: 10px;
 }
 
 

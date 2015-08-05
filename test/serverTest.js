@@ -1,7 +1,7 @@
 var chai = require('chai');
 var chaihttp = require('chai-http');
 var expect = chai.expect;
-process.env.MONGOLAB_URL = 'mongodb://localhost/restTest_db';
+// process.env.MONGOLAB_URL = 'mongodb://localhost/restTest_db';
 var mongoose = require('mongoose');
 var server = require(__dirname + '/../server');
 var Restaurant = require(__dirname + '/../models/restaurant');
@@ -83,10 +83,10 @@ describe('restaurant REST server', function() {
         done();
       });
   });
-  after(function(done) {
-    mongoose.connection.db.dropDatabase(function() {
-      done();
-    });
-  });
+  // after(function(done) {
+  //   mongoose.connection.db.dropDatabase(function() {
+  //     done();
+  //   });
+  // });
 });
 

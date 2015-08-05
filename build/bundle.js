@@ -50,12 +50,8 @@
 
 	var restaurantApp = angular.module('restaurantApp', []);
 
-	var restaurantController = restaurantApp.controller('restaurantController', ['$scope', function($scope) {
-	  $scope.appDescription = 'This app will store your favorite restaurants and display them in a sortable list.'
-	  $scope.addRestaurant = function() {
-	    //logic to add a restaurant to DB
-	  }
-	}])
+	__webpack_require__(2)(restaurantApp);
+
 
 
 /***/ },
@@ -28426,6 +28422,87 @@
 	})(window, document);
 
 	!window.angular.$$csp() && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports = function(app) {
+	  __webpack_require__(3)(app);
+	};
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function(app) {
+	  app.controller('restaurantController', ['$scope', '$http', function($scope, $http) {
+	    $scope.restaurants = [];
+	    $scope.errors = [];
+
+	    var handleErrors = function(err) {
+	      console.log(err.data);
+	      $scope.errors.push(err.data);
+	    }
+
+	    $scope.getAll = function() {
+	      $http.get('/api/restaurants')
+	        .then(function(res) {
+	          $scope.restaurants = res.data;
+	        }, function(res) {
+	          handleErrors(res);
+	        });
+	    };
+
+	    $scope.create = function(restaurant) {
+	      $scope.newRestaurant = null;
+	      $http.post('/api/restaurants', restaurant)
+	        .then(function(res) {
+	          $scope.restaurants.push(res.data);
+	        }, function(res) {
+	          handleErrors(res);
+	        });
+	    };
+
+	    $scope.delete = function(restaurant) {
+	      $http.delete('/api/restaurants/' + restaurant._id)
+	        .then(function(res) {
+	          $scope.restaurants.splice($scope.restaurants.indexOf(restaurant), 1);
+	        }, function(res) {
+	          handleErrors(res);
+	        });
+	    };
+
+	    $scope.update = function(restaurant) {
+	      $http.put('/api/restaurants/' + restaurant._id, restaurant)
+	        .then(function(res) {
+	          restaurant.editing = false;
+	        }, function(res) {
+	          restaurant.editing = false;
+	          handleErrors(res);
+	        });
+	    };
+
+	    $scope.saveTemp = function(restaurant) {
+	      restaurant.editing = true;
+	      $scope.backup = angular.copy(restaurant);
+	    }
+
+	    $scope.resetForm = function(restaurant) {
+	      restaurant = angular.copy($scope.backup);
+	      restaurant.editing = false;
+	      console.log(restaurant);
+	    }
+
+
+	  }]);
+	};
+
 
 /***/ }
 /******/ ]);
