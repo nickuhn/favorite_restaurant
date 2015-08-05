@@ -54,9 +54,11 @@ module.exports = function(app) {
     }
 
     $scope.resetForm = function(restaurant) {
-      restaurant = angular.copy($scope.backup);
+      restaurant.name = $scope.backup.name;
+      restaurant.rating = $scope.backup.rating;
+      restaurant.cuisine = $scope.backup.cuising;
+      restaurant.location = $scope.backup.location;
       restaurant.editing = false;
-      console.log(restaurant);
     }
 
 
