@@ -45,7 +45,7 @@ module.exports = function(router) {
   });
 
   router.delete('/restaurants/:id', function(req, res) {
-    Restaurant.remove({'_id': req.params.id}, function(err){
+    Restaurant.remove({'_id': req.params.id}, function(err) {
       if (err) {
         return res.status(500).json({msg:'error deleting file'});
       }

@@ -1,4 +1,5 @@
 'use strict';
+var _ = require('lodash');
 
 module.exports = function(app) {
   app.controller('restaurantController', ['$scope', '$http', function($scope, $http) {
@@ -8,7 +9,7 @@ module.exports = function(app) {
     var handleErrors = function(err) {
       console.log(err.data);
       $scope.errors.push(err.data);
-    }
+    };
 
     $scope.getAll = function() {
       $http.get('/api/restaurants')
@@ -50,17 +51,15 @@ module.exports = function(app) {
 
     $scope.saveTemp = function(restaurant) {
       restaurant.editing = true;
-      $scope.backup = angular.copy(restaurant);
-    }
+      $scope.backup = _.cloneDeep(restaurant);
+    };
 
     $scope.resetForm = function(restaurant) {
-      restaurant.name = $scope.backup.name;
-      restaurant.rating = $scope.backup.rating;
-      restaurant.cuisine = $scope.backup.cuising;
-      restaurant.location = $scope.backup.location;
+      for (var key in restaurant) {
+        restaurant[key] = $scope.backup[key];
+      }
       restaurant.editing = false;
-    }
-
+    };
 
   }]);
 };
