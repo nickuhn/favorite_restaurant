@@ -54,7 +54,7 @@
 	'use strict'
 
 	__webpack_require__(2);
-	__webpack_require__(8);
+	__webpack_require__(12);
 
 	describe('Restaurant Controller', function() {
 	  var $CC;
@@ -214,10 +214,12 @@
 	'use strict'
 
 	__webpack_require__(3);
+	__webpack_require__(4);
+	__webpack_require__(6);
 
-	var restaurantApp = angular.module('restaurantApp', []);
+	var restaurantApp = angular.module('restaurantApp', ['services', 'directives']);
 
-	__webpack_require__(4)(restaurantApp);
+	__webpack_require__(7)(restaurantApp);
 
 
 
@@ -28596,64 +28598,140 @@
 
 	'use strict';
 
-	module.exports = function(app) {
-	  __webpack_require__(5)(app);
-	};
+	var services = module.exports = exports = angular.module('services', []);
+
+	__webpack_require__(5)(services);
+
 
 
 /***/ },
 /* 5 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function(app) {
+	  app.factory('RESTResource', ['$http', function($http) {
+
+	    var errorHandler = function(callback) {
+	      return function(res) {
+	        console.log(res.data);
+	        callback(res.data);
+	      };
+	    };
+
+	    var successHandler = function(callback) {
+	      return function(res) {
+	        callback(null, res.data);
+	      };
+	    };
+
+	    return function(resourceName) {
+
+	      var requestHandler = function(method, data, callback) {
+	        var url = '/api/' + resourceName;
+	        if (data && data._id) {
+	          url += '/' + data._id;
+	        }
+	        $http({
+	          method: method,
+	          url: url,
+	          data: data
+	        })
+	          .then(successHandler(callback), errorHandler(callback));
+	      };
+
+	      return {
+	        getAll: function(callback) {
+	          requestHandler('GET', null, callback);
+	        },
+
+	        create: function(data, callback) {
+	          requestHandler('POST', data, callback);
+	        },
+
+	        delete: function(data, callback) {
+	          requestHandler('DELETE', data, callback);
+	        },
+
+	        update: function(data, callback) {
+	          requestHandler('PUT', data, callback);
+	        }
+	      };
+	    };
+	  }]);
+	};
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var directives = angular.module('directives', []);
+
+
+/***/ },
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var _ = __webpack_require__(6);
 
 	module.exports = function(app) {
-	  app.controller('restaurantController', ['$scope', '$http', function($scope, $http) {
+	  __webpack_require__(8)(app);
+	  __webpack_require__(11)(app);
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	var _ = __webpack_require__(9);
+
+	module.exports = function(app) {
+	  app.controller('restaurantController', ['$scope', 'RESTResource', function($scope, resource) {
 	    $scope.restaurants = [];
 	    $scope.errors = [];
-
-	    var handleErrors = function(err) {
-	      console.log(err.data);
-	      $scope.errors.push(err.data);
-	    };
+	    var Restaurants = new resource('restaurants');
 
 	    $scope.getAll = function() {
-	      $http.get('/api/restaurants')
-	        .then(function(res) {
-	          $scope.restaurants = res.data;
-	        }, function(res) {
-	          handleErrors(res);
-	        });
+	      Restaurants.getAll(function(err, data) {
+	        if (err) {
+	          return $scope.errors.push(err);
+	        }
+	        $scope.restaurants = data;
+	      });
 	    };
 
 	    $scope.create = function(restaurant) {
 	      $scope.newRestaurant = null;
-	      $http.post('/api/restaurants', restaurant)
-	        .then(function(res) {
-	          $scope.restaurants.push(res.data);
-	        }, function(res) {
-	          handleErrors(res);
-	        });
+	      Restaurants.create(restaurant, function(err, data) {
+	        if (err) {
+	          return $scope.errors.push(err);
+	        }
+	        $scope.restaurants.push(data);
+	      });
 	    };
 
 	    $scope.delete = function(restaurant) {
-	      $http.delete('/api/restaurants/' + restaurant._id)
-	        .then(function(res) {
-	          $scope.restaurants.splice($scope.restaurants.indexOf(restaurant), 1);
-	        }, function(res) {
-	          handleErrors(res);
-	        });
+	      Restaurants.delete(restaurant, function(err, data) {
+	        if (err) {
+	          return $scope.errors.push(err);
+	        }
+	        $scope.restaurants.splice($scope.restaurants.indexOf(restaurant), 1);
+	      });
 	    };
 
 	    $scope.update = function(restaurant) {
-	      $http.put('/api/restaurants/' + restaurant._id, restaurant)
-	        .then(function(res) {
-	          restaurant.editing = false;
-	        }, function(res) {
-	          restaurant.editing = false;
-	          handleErrors(res);
-	        });
+	      Restaurants.update(restaurant, function(err, data) {
+	        if (err) {
+	          return $scope.errors.push(err);
+	        }
+	        restaurant.editing = false;
+	      });
 	    };
 
 	    $scope.saveTemp = function(restaurant) {
@@ -28673,7 +28751,7 @@
 
 
 /***/ },
-/* 6 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -41028,10 +41106,10 @@
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)(module), (function() { return this; }())))
 
 /***/ },
-/* 7 */
+/* 10 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -41047,7 +41125,33 @@
 
 
 /***/ },
-/* 8 */
+/* 11 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function(app) {
+	  app.directive('starRating', function() {
+	    return {
+	      restrict: 'CA',
+	      replace: true,
+	      templateUrl: './../../../html/star_template.html',
+	      scope: {
+	        ratingValue: '=',
+	      },
+	      link: function(scope, elem, attrs) {
+	        scope.stars = [];
+	        for (var i = 0; i < 5; i++) {
+	          scope.stars.push({filled: i < scope.ratingValue});
+	        }
+	      }
+	    }
+	  });
+	}
+
+
+/***/ },
+/* 12 */
 /***/ function(module, exports) {
 
 	/**

@@ -2,51 +2,46 @@
 var _ = require('lodash');
 
 module.exports = function(app) {
-  app.controller('restaurantController', ['$scope', '$http', function($scope, $http) {
+  app.controller('restaurantController', ['$scope', 'RESTResource', function($scope, resource) {
     $scope.restaurants = [];
     $scope.errors = [];
-
-    var handleErrors = function(err) {
-      console.log(err.data);
-      $scope.errors.push(err.data);
-    };
+    var Restaurants = new resource('restaurants');
 
     $scope.getAll = function() {
-      $http.get('/api/restaurants')
-        .then(function(res) {
-          $scope.restaurants = res.data;
-        }, function(res) {
-          handleErrors(res);
-        });
+      Restaurants.getAll(function(err, data) {
+        if (err) {
+          return $scope.errors.push(err);
+        }
+        $scope.restaurants = data;
+      });
     };
 
     $scope.create = function(restaurant) {
       $scope.newRestaurant = null;
-      $http.post('/api/restaurants', restaurant)
-        .then(function(res) {
-          $scope.restaurants.push(res.data);
-        }, function(res) {
-          handleErrors(res);
-        });
+      Restaurants.create(restaurant, function(err, data) {
+        if (err) {
+          return $scope.errors.push(err);
+        }
+        $scope.restaurants.push(data);
+      });
     };
 
     $scope.delete = function(restaurant) {
-      $http.delete('/api/restaurants/' + restaurant._id)
-        .then(function(res) {
-          $scope.restaurants.splice($scope.restaurants.indexOf(restaurant), 1);
-        }, function(res) {
-          handleErrors(res);
-        });
+      Restaurants.delete(restaurant, function(err, data) {
+        if (err) {
+          return $scope.errors.push(err);
+        }
+        $scope.restaurants.splice($scope.restaurants.indexOf(restaurant), 1);
+      });
     };
 
     $scope.update = function(restaurant) {
-      $http.put('/api/restaurants/' + restaurant._id, restaurant)
-        .then(function(res) {
-          restaurant.editing = false;
-        }, function(res) {
-          restaurant.editing = false;
-          handleErrors(res);
-        });
+      Restaurants.update(restaurant, function(err, data) {
+        if (err) {
+          return $scope.errors.push(err);
+        }
+        restaurant.editing = false;
+      });
     };
 
     $scope.saveTemp = function(restaurant) {
