@@ -6,17 +6,10 @@
   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body data-ng-app="restaurantApp">
-  <main data-ng-controller="restaurantController" data-ng-init="getAll()">
+  <header>
     <h1>Store Your Favorite Restaurants</h1>
-    <aside id="addBox">
-      <form data-ng-submit="create(newRestaurant)">
-        <label>Restaurant Name: <input type="text" required data-ng-model="newRestaurant.name"></label>
-        <label>Location: <input type="text" data-ng-model="newRestaurant.location"></label>
-        <label>Rating 1-5: <input class="number" type="number" min="1" max="5" data-ng-model="newRestaurant.rating"></label>
-        <label>Cuisine: <input type="text" data-ng-model="newRestaurant.cuisine"></label>
-        <button type="submit">Add Restaurant</button>
-      </form>
-    </aside>
+  </header>
+  <main data-ng-controller="restaurantController" data-ng-init="getAll()">
     <section id="restHolder">
       <article id="restList" data-ng-repeat="restaurant in restaurants">
 
@@ -32,7 +25,7 @@
         <section data-ng-if="!restaurant.editing">
           <h3>{{restaurant.name}}</h3>
           <p><strong>Location: </strong>{{restaurant.location}}</p>
-          <p><strong>Rating: </strong>{{restaurant.rating}}</p>
+          <p><strong>Rating: </strong><div data-star-rating data-rating-value="restaurant.rating"></div></p>
           <p><strong>Cuisine: </strong>{{restaurant.cuisine}}</p>
           <button data-ng-click="delete(restaurant)">Delete Me!</button>
           <button data-ng-click="saveTemp(restaurant)">Update Me!</button>
@@ -40,6 +33,15 @@
 
       </article>
     </section>
+    <aside id="addBox">
+      <form data-ng-submit="create(newRestaurant)">
+        <label>Restaurant Name: <input type="text" required data-ng-model="newRestaurant.name"></label>
+        <label>Location: <input type="text" data-ng-model="newRestaurant.location"></label>
+        <label>Rating 1-5: <input class="number" type="number" min="1" max="5" data-ng-model="newRestaurant.rating"></label>
+        <label>Cuisine: <input type="text" data-ng-model="newRestaurant.cuisine"></label>
+        <button type="submit">Add Restaurant</button>
+      </form>
+    </aside>
   </main>
   <script src="bundle.js"></script>
 </body>
