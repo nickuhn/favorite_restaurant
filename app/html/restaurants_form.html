@@ -1,0 +1,8 @@
+<form data-ng-submit="save({restaurant: restaurant})">
+  <label>Restaurant Name: <input type="text" required data-ng-model="restaurant.name"></label>
+  <label>Location: <input type="text" data-ng-model="restaurant.location"></label>
+  <label>Rating 1-5: <input class="number" type="number" min="1" max="5" data-ng-model="restaurant.rating"></label>
+  <label>Cuisine: <input type="text" data-ng-model="restaurant.cuisine"></label>
+  <button type="submit">{{buttonText}}</button>
+  <button type="button" data-ng-click="cancel(restaurant)" data-ng-if="needEdit">Or not...</button>
+</form>

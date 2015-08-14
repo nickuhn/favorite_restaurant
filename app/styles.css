@@ -44,6 +44,7 @@ h1, h2 {
     clear: left;
     width: 145px;
     text-align: left;
+    padding: 3px;
 }
 
 #updateRest input {
@@ -53,13 +54,12 @@ h1, h2 {
 }
 
 #updateRest {
-  width: 154px;
-  padding: 0px 0px 0px;
+  width: 155px;
+  padding: 28px 0px 0px;
   border-radius: 6px;
   display: inline-block;
-  padding-right: 0;
   background-color: #ddd;
-  margin-top: 19px;
+  margin-top: 20px;
   margin-bottom: 0px;
 }
 
@@ -71,16 +71,16 @@ h1, h2 {
 #restHolder {
   display: inline-block;
   float:right;
-  width: 1012px;
+  width: 1025px;
   margin-right: 80px;
   border: 3px solid black;
   border-radius: 6px;
 }
 
 #restList {
-  max-width: 75%;
+  width: 155px;
   display: inline-block;
-  padding: 24px;
+  padding: 25px;
 }
 
 #restList:nth-child(even) {
@@ -106,4 +106,11 @@ h1, h2 {
   color: gold;
 }
 
+#location {
+  height: 36px;
+}
+
+button:hover {
+  background-color: #5A7C81;
+}
 

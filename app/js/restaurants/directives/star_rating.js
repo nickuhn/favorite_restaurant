@@ -9,10 +9,10 @@ module.exports = function(app) {
       scope: {
         ratingValue: '=',
       },
-      link: function(scope, elem, attrs) {
-        scope.stars = [];
+      link: function($scope) {
+        $scope.stars = [];
         for (var i = 0; i < 5; i++) {
-          scope.stars.push({filled: i < scope.ratingValue});
+          $scope.stars.push({filled: i < $scope.ratingValue});
         }
       }
     }
