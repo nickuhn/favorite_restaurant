@@ -1,0 +1,32 @@
+<main data-ng-controller="restaurantController" data-ng-init="getAll()">
+  <section id="restHolder">
+    <article id="restList" data-ng-repeat="restaurant in restaurants">
+      <div data-restaurants-form
+        data-cancel="resetForm(restaurant)"
+        data-button-text="Update!"
+        data-save="update(restaurant)"
+        data-restaurant="restaurant"
+        data-ng-if="restaurant.editing"
+        data-need-edit="true"
+        id="updateRest">
+      </div>
+      <section data-ng-if="!restaurant.editing">
+        <h3>{{restaurant.name}}</h3>
+        <p><strong>Location: </strong></p>
+        <p id="location">{{restaurant.location}}</p>
+        <p><strong>Rating: </strong><div data-star-rating data-rating-value="restaurant.rating"></div></p>
+        <p><strong>Cuisine: </strong>{{restaurant.cuisine}}</p>
+        <button data-ng-click="delete(restaurant)">Delete Me!</button>
+        <button data-ng-click="saveTemp(restaurant)">Update Me!</button>
+      </section>
+    </article>
+  </section>
+  <aside id="addBox">
+    <div data-restaurants-form
+      data-button-text="Add Restaurant"
+      data-save="create(restaurant)"
+      data-restaurant="newRestaurant"
+      data-need-edit="false">
+    </div>
+  </aside>
+</main>

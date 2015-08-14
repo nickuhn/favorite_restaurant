@@ -14,7 +14,10 @@
   },
   "devDependencies": {
     "angular": "^1.4.3",
+    "angular-cookies": "^1.4.4",
     "angular-mocks": "^1.4.3",
+    "angular-route": "^1.4.3",
+    "bcrypt-nodejs": "0.0.3",
     "chai": "^3.1.0",
     "chai-http": "^1.0.0",
     "css-loader": "^0.15.6",
@@ -24,10 +27,12 @@
     "gulp-webpack": "^1.5.0",
     "jasmine-core": "^2.3.4",
     "jshint-stylish": "^2.0.1",
+    "jsonwebtoken": "^5.0.4",
     "karma": "^0.13.8",
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^0.2.1",
     "mocha": "^2.2.5",
+    "mongoose": "^4.1.2",
     "phantomjs": "^1.9.17",
     "style-loader": "^0.12.3"
   },

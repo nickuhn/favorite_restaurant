@@ -2,6 +2,7 @@
 
 var bodyParser = require('body-parser');
 var Restaurant = require(__dirname + '/../models/restaurant');
+var verify = require('../middleware/verify');
 
 module.exports = function(router) {
 
@@ -25,7 +26,7 @@ module.exports = function(router) {
     });
   });
 
-  router.post('/restaurants/', function(req, res) {
+  router.post('/restaurants/', verify, function(req, res) {
     var newRest = new Restaurant(req.body);
     newRest.save(function(err) {
       if (err) {
@@ -35,7 +36,7 @@ module.exports = function(router) {
     });
   });
 
-  router.put('/restaurants/:id', function(req, res) {
+  router.put('/restaurants/:id', verify, function(req, res) {
     Restaurant.update({'_id': req.params.id}, req.body, function(err, data){
       if (err) {
        return res.status(404).json({msg:'error saving file'});
@@ -44,7 +45,7 @@ module.exports = function(router) {
     });
   });
 
-  router.delete('/restaurants/:id', function(req, res) {
+  router.delete('/restaurants/:id', verify, function(req, res) {
     Restaurant.remove({'_id': req.params.id}, function(err) {
       if (err) {
         return res.status(500).json({msg:'error deleting file'});
