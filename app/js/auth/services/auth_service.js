@@ -6,7 +6,6 @@ module.exports = function(app) {
       signin: function(user, callback) {
                 $http.post('/auth/signin', user)
                 .success(function(data) {
-                  console.log(data);
                   $cookies.put('jwt', data.token);
                   callback(null);
                 })
@@ -19,7 +18,6 @@ module.exports = function(app) {
       create: function(user, callback) {
                 $http.post('/auth/signup', user)
                 .success(function(data) {
-                  console.log(data);
                   $cookies.put('jwt', data.token);
                   callback(null);
                 })
@@ -30,7 +28,7 @@ module.exports = function(app) {
               },
 
       logout: function() {
-                cookies.put('jwt', '');
+                $cookies.put('jwt', '');
               },
 
       isSignedIn: function() {

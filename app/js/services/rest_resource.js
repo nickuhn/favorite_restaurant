@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(app) {
-  app.factory('RESTResource', ['$http', function($http) {
+  app.factory('RESTResource', ['$http', '$cookies', function($http, $cookies) {
 
     var errorHandler = function(callback) {
       return function(res) {
@@ -23,10 +23,12 @@ module.exports = function(app) {
         if (data && data._id) {
           url += '/' + data._id;
         }
+        var jwt = $cookies.get('jwt');
+        $http.defaults.headers.common['x-access-token'] = jwt;
         $http({
           method: method,
           url: url,
-          data: data
+          data: data,
         })
           .then(successHandler(callback), errorHandler(callback));
       };
