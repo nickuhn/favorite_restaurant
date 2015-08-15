@@ -238,7 +238,7 @@
 	      controller: 'authController'
 	    })
 	    .otherwise({
-	      redirectTo: '/createuser'
+	      redirectTo: '/signin'
 	    })
 	}])
 
@@ -29972,7 +29972,7 @@
 	'use strict';
 
 	module.exports = function(app) {
-	  app.factory('RESTResource', ['$http', function($http) {
+	  app.factory('RESTResource', ['$http', '$cookies', function($http, $cookies) {
 
 	    var errorHandler = function(callback) {
 	      return function(res) {
@@ -29994,10 +29994,12 @@
 	        if (data && data._id) {
 	          url += '/' + data._id;
 	        }
+	        var jwt = $cookies.get('jwt');
+	        $http.defaults.headers.common['x-access-token'] = jwt;
 	        $http({
 	          method: method,
 	          url: url,
-	          data: data
+	          data: data,
 	        })
 	          .then(successHandler(callback), errorHandler(callback));
 	      };
@@ -42535,8 +42537,6 @@
 
 	module.exports = function(app) {
 	  __webpack_require__(17)(app);
-	  __webpack_require__(18)(app);
-	  __webpack_require__(19)(app);
 	  __webpack_require__(20)(app);
 	}
 
@@ -42550,6 +42550,9 @@
 	module.exports = function(app) {
 	  app.controller('authController', ['$scope', '$location', 'auth', function($scope, $location, auth) {
 	    if (auth.isSignedIn()) $location.path('/restaurants');
+	    $scope.moveToCreate = function() {
+	      $location.path('/createuser');
+	    };
 	    $scope.errors = [];
 	    $scope.authSubmit = function(user) {
 	      if (user.password_confirmation) {
@@ -42561,7 +42564,6 @@
 	          $location.path('/restaurants');
 	        })
 	      } else {
-	        console.log('user in auth controller', user);
 	        auth.signin(user, function(err) {
 	          if(err) {
 	            console.log(err);
@@ -42571,52 +42573,21 @@
 	        });
 	      }
 	    }
+	    $scope.signedIn = function() {
+	          return auth.isSignedIn();
+	        };
+
+	    $scope.signOut = function() {
+	      auth.logout();
+	      $location.path('/signin');
+	    };
 	  }]);
 	};
 
 
 /***/ },
-/* 18 */
-/***/ function(module, exports) {
-
-	'use strict'
-
-	module.exports = function(app) {
-	  app.controller('logoutController', ['$scope','$location', 'auth', function($scope, $location, auth) {
-	        $scope.signedIn = function() {
-	          return auth.isSignedIn();
-	        };
-
-	        $scope.signOut = function() {
-	          console.log('clicked');
-	          auth.logout();
-	          $location.path('/create_user');
-	        };
-	      }]);
-
-	}
-
-
-/***/ },
-/* 19 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = function(app) {
-	  app.directive('logoutDirective', function() {
-	    return {
-	      restrict: 'CA',
-	      replace: true,
-	      scope: {},
-	      templateUrl: 'js/logout_template.html',
-	      controller: 'logoutController'
-	    }
-	  });
-	};
-
-
-/***/ },
+/* 18 */,
+/* 19 */,
 /* 20 */
 /***/ function(module, exports) {
 
@@ -42628,7 +42599,6 @@
 	      signin: function(user, callback) {
 	                $http.post('/auth/signin', user)
 	                .success(function(data) {
-	                  console.log(data);
 	                  $cookies.put('jwt', data.token);
 	                  callback(null);
 	                })
@@ -42641,7 +42611,6 @@
 	      create: function(user, callback) {
 	                $http.post('/auth/signup', user)
 	                .success(function(data) {
-	                  console.log(data);
 	                  $cookies.put('jwt', data.token);
 	                  callback(null);
 	                })
@@ -42652,7 +42621,7 @@
 	              },
 
 	      logout: function() {
-	                cookies.put('jwt', '');
+	                $cookies.put('jwt', '');
 	              },
 
 	      isSignedIn: function() {

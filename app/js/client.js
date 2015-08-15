@@ -25,6 +25,6 @@ restaurantApp.config(['$routeProvider', function($route) {
       controller: 'authController'
     })
     .otherwise({
-      redirectTo: '/createuser'
+      redirectTo: '/signin'
     })
 }])

@@ -3,6 +3,9 @@
 module.exports = function(app) {
   app.controller('authController', ['$scope', '$location', 'auth', function($scope, $location, auth) {
     if (auth.isSignedIn()) $location.path('/restaurants');
+    $scope.moveToCreate = function() {
+      $location.path('/createuser');
+    };
     $scope.errors = [];
     $scope.authSubmit = function(user) {
       if (user.password_confirmation) {
@@ -14,7 +17,6 @@ module.exports = function(app) {
           $location.path('/restaurants');
         })
       } else {
-        console.log('user in auth controller', user);
         auth.signin(user, function(err) {
           if(err) {
             console.log(err);
@@ -24,5 +26,13 @@ module.exports = function(app) {
         });
       }
     }
+    $scope.signedIn = function() {
+          return auth.isSignedIn();
+        };
+
+    $scope.signOut = function() {
+      auth.logout();
+      $location.path('/signin');
+    };
   }]);
 };
