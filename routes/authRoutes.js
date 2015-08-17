@@ -17,7 +17,7 @@ module.exports = function(router) {
           res.json({success: false, msg: 'Invalid password'});
         } else {
           var token = jwt.sign(user, 'CHANGEME', {expiresInMinutes: 14444440});
-          res.json({success: true, msg: 'Authentication successfull', token: token});
+          res.json({success: true, msg: 'Authentication successfull', token: token, user: user});
         }
       }
     });

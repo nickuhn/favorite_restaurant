@@ -8,7 +8,7 @@
 <body data-ng-app="restaurantApp">
   <header>
     <h1>Store Your Favorite Restaurants</h1>
-    <button data-ng-controller="authController" data-ng-show="signedIn()" type="button" data-ng-click="signOut()">Log Out</button>
+    <span data-ng-controller="authController" data-ng-show="signedIn()"><button id="logout" type="button" data-ng-click="signOut()">Log Out</button></span>
   </header>
   <main data-ng-view>
   </main>

@@ -2,7 +2,6 @@
 h1, h2 {
   text-align: center;
   margin: auto;
-  padding-bottom: 2%;
 }
 
 #addBox {
@@ -110,7 +109,12 @@ h1, h2 {
   height: 36px;
 }
 
+#logout {
+  margin-left: 90%;
+  margin-bottom: 20px;
+}
+
 button:hover {
-  background-color: #5A7C81;
+  cursor: pointer;
 }
 
